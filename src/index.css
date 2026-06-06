@@ -1,0 +1,2432 @@
+/* ============================================================
+   SCROLL REVEAL ANIMATIONS
+============================================================ */
+.reveal {
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal--bottom { opacity: 0; transform: translateY(32px); }
+.reveal--left   { opacity: 0; transform: translateX(-32px); }
+.reveal--right  { opacity: 0; transform: translateX(32px); }
+.reveal--scale  { opacity: 0; transform: scale(0.94); }
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   SMOKE ORBS
+============================================================ */
+@keyframes smoke-drift {
+  0%   { transform: translate(0,    0)    scale(1);    opacity: 0.6; }
+  33%  { transform: translate(-2%, -3%)   scale(1.06); opacity: 0.88; }
+  66%  { transform: translate(2%,  -2%)   scale(0.96); opacity: 0.72; }
+  100% { transform: translate(0,    0)    scale(1);    opacity: 0.6; }
+}
+
+.smoke-orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.smoke-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: smoke-drift ease-in-out infinite;
+}
+
+.smoke-orb-1 {
+  width:  clamp(300px, 40vw, 620px);
+  height: clamp(300px, 40vw, 620px);
+  background: radial-gradient(circle, rgba(184, 115, 51, 0.22), transparent 70%);
+  top: -10%; right: -5%;
+  animation-duration: 15s;
+}
+
+.smoke-orb-2 {
+  width:  clamp(240px, 32vw, 500px);
+  height: clamp(240px, 32vw, 500px);
+  background: radial-gradient(circle, rgba(94, 58, 35, 0.28), transparent 70%);
+  bottom: -10%; left: -5%;
+  animation-duration: 21s;
+  animation-delay: -7s;
+}
+
+.smoke-orb-3 {
+  width:  clamp(160px, 22vw, 340px);
+  height: clamp(160px, 22vw, 340px);
+  background: radial-gradient(circle, rgba(212, 165, 90, 0.16), transparent 70%);
+  top: 35%; left: 28%;
+  animation-duration: 28s;
+  animation-delay: -14s;
+}
+
+/* ============================================================
+   TOKENS
+============================================================ */
+:root {
+  /* Core palette */
+  --midnight-smoke:   #0A0A0A;
+  --charred-oak:      #1B1612;
+  --tobacco-leaf:     #5E3A23;
+  --burnished-copper: #B87333;
+  --barrel-gold:      #D4A55A;
+  --ivory-smoke:      #F5F0E8;
+  --cigar-ash:        #B4ADA3;
+  --weathered-stone:  #7C746B;
+
+  /* Status */
+  --success: #5F8B68;
+  --warning: #C98C3A;
+  --error:   #8A3D35;
+
+  /* Derived utility */
+  --line:       rgba(124, 116, 107, 0.22);
+  --line-strong: rgba(124, 116, 107, 0.44);
+  --gold-glow:  rgba(212, 165, 90, 0.25);
+
+  /* Gradients */
+  --grad-copper: linear-gradient(135deg, #B87333 0%, #D4A55A 100%);
+  --grad-lounge: linear-gradient(180deg, #1B1612 0%, #0A0A0A 100%);
+  --grad-whiskey: radial-gradient(circle, rgba(212, 165, 90, 0.25) 0%, rgba(10, 10, 10, 0) 70%);
+
+  /* Layout */
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans:  'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --nav-h:  72px;
+  --page-x: clamp(1.25rem, 5vw, 5rem);
+}
+
+/* ============================================================
+   RESET & BASE
+============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--midnight-smoke);
+  color: var(--ivory-smoke);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   TYPOGRAPHY
+============================================================ */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: var(--ivory-smoke);
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+}
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.85rem;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  border: none;
+  background: var(--grad-copper);
+  color: var(--midnight-smoke);
+  transition: opacity 0.2s, transform 0.15s, background 0.25s;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+  opacity: 0.96;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--ivory-smoke);
+  border: 1px solid var(--barrel-gold);
+}
+
+.btn.ghost:hover {
+  background: rgba(212, 165, 90, 0.1);
+  color: var(--barrel-gold);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   HEADER
+============================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  padding: 0 var(--page-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  background: rgba(10, 10, 10, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--line);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.site-header.scrolled {
+  background: rgba(10, 10, 10, 0.97);
+  border-bottom-color: var(--line-strong);
+}
+
+.logo {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3em;
+  flex-shrink: 0;
+}
+
+.logo-more  { color: var(--barrel-gold); }
+.logo-smoke {
+  color: var(--ivory-smoke);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+.main-nav a {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--cigar-ash);
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+
+.main-nav a:hover,
+.main-nav a.active { color: var(--barrel-gold); }
+
+/* Hamburger */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  flex-shrink: 0;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--ivory-smoke);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.2s;
+  transform-origin: center;
+}
+
+.menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-toggle.open span:nth-child(2) { opacity: 0; }
+.menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.site-footer {
+  border-top: 1px solid var(--line);
+  background: var(--charred-oak);
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  padding: clamp(3rem, 6vw, 5rem) var(--page-x) 2.5rem;
+}
+
+.footer-brand .logo { margin-bottom: 0.75rem; }
+
+.footer-brand p {
+  color: var(--cigar-ash);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  max-width: 340px;
+}
+
+.footer-nav,
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-nav h4,
+.footer-contact h4 {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+  margin-bottom: 0.35rem;
+}
+
+.footer-nav a,
+.footer-contact a {
+  color: var(--cigar-ash);
+  font-size: 0.88rem;
+  transition: color 0.2s;
+}
+
+.footer-nav a:hover,
+.footer-contact a:hover { color: var(--ivory-smoke); }
+
+.footer-contact p {
+  color: var(--cigar-ash);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin-top: 0.1rem;
+}
+
+.footer-warning {
+  padding: 1.25rem var(--page-x);
+  border-top: 1px solid var(--line);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--weathered-stone);
+  letter-spacing: 0.04em;
+  line-height: 1.65;
+}
+
+/* ============================================================
+   AGE GATE
+============================================================ */
+.age-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(212, 165, 90, 0.18), transparent 55%),
+    var(--midnight-smoke);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.age-card {
+  width: min(520px, 100%);
+  background: linear-gradient(160deg, #1B1612, #0D0A07);
+  border: 1px solid var(--line-strong);
+  border-radius: 32px;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  text-align: center;
+  box-shadow:
+    0 40px 120px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(212, 165, 90, 0.06),
+    inset 0 1px 0 rgba(212, 165, 90, 0.08);
+}
+
+.age-brand {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+  margin-bottom: 1.5rem;
+}
+
+.age-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  color: var(--ivory-smoke);
+  margin-bottom: 1rem;
+  line-height: 1.05;
+  font-weight: 500;
+}
+
+.age-text {
+  color: var(--cigar-ash);
+  font-size: 0.92rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.age-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.age-disclaimer {
+  color: var(--weathered-stone);
+  font-size: 0.68rem;
+  opacity: 0.7;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   HOME — HERO
+============================================================ */
+.hero {
+  min-height: calc(100vh - var(--nav-h));
+  padding: clamp(4rem, 8vw, 8rem) var(--page-x);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 68% 40%, rgba(212, 165, 90, 0.18), rgba(10, 10, 10, 0) 48%),
+    radial-gradient(ellipse at 12% 88%, rgba(94, 58, 35, 0.22), rgba(10, 10, 10, 0) 42%),
+    var(--grad-lounge);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.16;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-card {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 7.5vw, 7.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  margin: 0.75rem 0 1.5rem;
+  color: var(--ivory-smoke);
+  font-weight: 500;
+}
+
+.hero-body {
+  color: var(--cigar-ash);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 480px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-card {
+  border: 1px solid var(--line-strong);
+  border-radius: 36px;
+  background:
+    linear-gradient(145deg, rgba(212, 165, 90, 0.12), rgba(94, 58, 35, 0.08) 55%, transparent),
+    linear-gradient(165deg, #1B1612, #0D0A07);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 480px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(212, 165, 90, 0.08),
+    0 40px 80px rgba(0, 0, 0, 0.45);
+}
+
+.hero-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.32;
+  transition: transform 0.7s ease;
+  z-index: 0;
+}
+
+.hero-card:hover .hero-card-bg {
+  transform: scale(1.05);
+}
+
+.hero-card-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-card-name {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 5.5vw, 5.5rem);
+  color: var(--ivory-smoke);
+  margin-bottom: 0.5rem;
+  line-height: 1;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-card-tagline {
+  color: var(--cigar-ash);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-card-meta {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-card-meta span {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ivory-smoke);
+  background: rgba(245, 240, 232, 0.07);
+  border: 1px solid var(--line);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+}
+
+/* ============================================================
+   HOME — PHILOSOPHY BAND
+============================================================ */
+.philosophy-band {
+  text-align: center;
+  padding: clamp(5rem, 10vw, 10rem) var(--page-x);
+  background:
+    radial-gradient(circle, rgba(212, 165, 90, 0.18) 0%, rgba(10, 10, 10, 0) 65%),
+    linear-gradient(180deg, var(--midnight-smoke), #130e08, var(--midnight-smoke));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.philosophy-band blockquote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 4.5vw, 3.75rem);
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--ivory-smoke);
+  max-width: 860px;
+  margin: 0 auto 1.25rem;
+  font-weight: 400;
+}
+
+.philosophy-mark {
+  color: var(--barrel-gold);
+  font-style: normal;
+}
+
+.philosophy-band cite {
+  color: var(--cigar-ash);
+  font-size: 0.78rem;
+  font-style: normal;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* ============================================================
+   HOME — BRAND STORY
+============================================================ */
+.brand-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  padding: clamp(4rem, 8vw, 8rem) var(--page-x);
+}
+
+.brand-story-text .eyebrow { margin-bottom: 1rem; }
+
+.brand-story-text h2 {
+  font-size: clamp(2.25rem, 4.5vw, 4rem);
+  margin-bottom: 1.25rem;
+  line-height: 1.05;
+}
+
+.brand-story-text p {
+  color: var(--cigar-ash);
+  line-height: 1.8;
+  margin-bottom: 0.85rem;
+  font-size: 0.95rem;
+}
+
+.brand-story-text .btn { margin-top: 1.25rem; }
+
+.brand-story-atmosphere {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.brand-story-img-wrap {
+  border-radius: 24px;
+  overflow: hidden;
+  height: 240px;
+  position: relative;
+}
+
+.brand-story-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.brand-story-img-wrap:hover img {
+  transform: scale(1.04);
+}
+
+.brand-story-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 45%, rgba(10, 10, 10, 0.65));
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.atmosphere-card {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 1.5rem 2rem;
+  background: var(--charred-oak);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: border-color 0.25s;
+}
+
+.atmosphere-card:hover { border-color: var(--line-strong); }
+
+.atmosphere-number {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  color: var(--barrel-gold);
+  opacity: 0.5;
+  flex-shrink: 0;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.atmosphere-card p {
+  font-size: 1rem;
+  color: var(--ivory-smoke);
+  font-weight: 500;
+}
+
+/* ============================================================
+   HOME — PILLARS
+============================================================ */
+.pillars {
+  padding: clamp(4rem, 8vw, 8rem) var(--page-x);
+  background: var(--grad-lounge);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.pillars-header {
+  max-width: 680px;
+  margin-bottom: 3rem;
+}
+
+.pillars-header .eyebrow { margin-bottom: 0.85rem; }
+
+.pillars-header h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.pillar-card {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 2.25rem 2rem;
+  background: var(--charred-oak);
+  transition: border-color 0.25s;
+}
+
+.pillar-card:hover { border-color: rgba(212, 165, 90, 0.35); }
+
+.pillar-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  margin-bottom: 0.85rem;
+  font-weight: 500;
+}
+
+.pillar-card p {
+  color: var(--cigar-ash);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+/* ============================================================
+   HOME — PORTFOLIO PREVIEW
+============================================================ */
+.portfolio-preview {
+  padding: clamp(4rem, 8vw, 8rem) var(--page-x);
+}
+
+.portfolio-header {
+  max-width: 640px;
+  margin-bottom: 3rem;
+}
+
+.portfolio-header .eyebrow { margin-bottom: 0.85rem; }
+
+.portfolio-header h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.portfolio-scroll {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.portfolio-card {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 1.75rem 1.5rem;
+  background: var(--charred-oak);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  overflow: hidden;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.portfolio-card:hover {
+  border-color: rgba(212, 165, 90, 0.35);
+  background: linear-gradient(160deg, rgba(212, 165, 90, 0.07), #1B1612);
+}
+
+.portfolio-thumb {
+  margin: -1.75rem -1.5rem 0;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 22px 22px 0 0;
+  position: relative;
+}
+
+.portfolio-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+
+.portfolio-card:hover .portfolio-thumb img {
+  transform: scale(1.06);
+}
+
+.portfolio-thumb::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(transparent, var(--charred-oak));
+  pointer-events: none;
+}
+
+.portfolio-status {
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+}
+
+.portfolio-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1.05;
+  font-weight: 500;
+}
+
+.portfolio-card p {
+  color: var(--cigar-ash);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  flex: 1;
+}
+
+.portfolio-strength { margin-top: 0.25rem; }
+
+.portfolio-strength span {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ivory-smoke);
+  background: rgba(245, 240, 232, 0.07);
+  border: 1px solid var(--line);
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+}
+
+.portfolio-cta { margin-top: 2.5rem; }
+
+/* ============================================================
+   HOME — LOCATIONS TEASER
+============================================================ */
+.locations-teaser {
+  padding: clamp(4rem, 8vw, 8rem) var(--page-x);
+  background:
+    radial-gradient(ellipse at 20% 55%, rgba(94, 58, 35, 0.28), rgba(10, 10, 10, 0) 52%),
+    var(--grad-lounge);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.locations-teaser-inner { max-width: 600px; }
+.locations-teaser-inner .eyebrow { margin-bottom: 0.85rem; }
+
+.locations-teaser-inner h2 {
+  font-size: clamp(2.25rem, 4.5vw, 4rem);
+  margin-bottom: 1.25rem;
+  line-height: 1.05;
+}
+
+.locations-teaser-inner p {
+  color: var(--cigar-ash);
+  line-height: 1.8;
+  margin-bottom: 2.25rem;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   HOME & LOCATIONS — WHOLESALE CTA
+============================================================ */
+.wholesale-cta {
+  padding: clamp(4rem, 8vw, 8rem) var(--page-x);
+  text-align: center;
+}
+
+.wholesale-cta-inner {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.wholesale-cta-inner .eyebrow { margin-bottom: 0.85rem; }
+
+.wholesale-cta-inner h2 {
+  font-size: clamp(2.25rem, 4.5vw, 4rem);
+  margin-bottom: 1.25rem;
+  line-height: 1.05;
+}
+
+.wholesale-cta-inner p {
+  color: var(--cigar-ash);
+  line-height: 1.8;
+  margin-bottom: 2.25rem;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   PAGE HERO
+============================================================ */
+.page-hero {
+  padding: clamp(5rem, 10vw, 9rem) var(--page-x) clamp(3rem, 6vw, 5rem);
+  background:
+    radial-gradient(ellipse at 85% 20%, rgba(184, 115, 51, 0.22), rgba(10, 10, 10, 0) 44%),
+    var(--grad-lounge);
+  border-bottom: 1px solid var(--line);
+}
+
+.page-hero .eyebrow { margin-bottom: 1rem; }
+
+.page-hero h1 {
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  line-height: 0.95;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+}
+
+.page-hero-text {
+  color: var(--cigar-ash);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 580px;
+}
+
+/* ============================================================
+   CIGARS PAGE
+============================================================ */
+.cigar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+  padding: clamp(3rem, 6vw, 5rem) var(--page-x);
+}
+
+.cigar-card {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 2.25rem;
+  background: var(--charred-oak);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  overflow: hidden;
+  transition: border-color 0.25s;
+}
+
+.cigar-card:hover { border-color: rgba(212, 165, 90, 0.35); }
+
+.cigar-card-img-wrap {
+  margin: -2.25rem -2.25rem 0;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 26px 26px 0 0;
+  position: relative;
+}
+
+.cigar-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.cigar-card:hover .cigar-card-img-wrap img {
+  transform: scale(1.05);
+}
+
+.cigar-card-img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(transparent, var(--charred-oak));
+  pointer-events: none;
+}
+
+.cigar-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cigar-status {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+}
+
+.cigar-card h2 {
+  font-family: var(--font-serif);
+  font-size: 2.75rem;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.cigar-tagline {
+  color: var(--ivory-smoke) !important;
+  font-weight: 600;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.cigar-specs {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1.1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+}
+
+.spec-label {
+  color: var(--weathered-stone);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cigar-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.profile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.profile-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ivory-smoke);
+  background: rgba(245, 240, 232, 0.07);
+  border: 1px solid var(--line);
+  padding: 0.28rem 0.72rem;
+  border-radius: 999px;
+}
+
+.cigar-pairing p:not(.spec-label) {
+  color: var(--cigar-ash);
+  font-size: 0.88rem;
+  margin-top: 0.35rem;
+  line-height: 1.55;
+}
+
+/* ============================================================
+   LOCATIONS PAGE
+============================================================ */
+.locations-grid {
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(3rem, 6vw, 5rem) var(--page-x);
+}
+
+.location-card {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 2.25rem;
+  background: var(--charred-oak);
+  display: grid;
+  grid-template-columns: 2fr auto 3fr;
+  gap: 2.5rem;
+  align-items: center;
+  transition: border-color 0.25s;
+}
+
+.location-card:hover { border-color: rgba(212, 165, 90, 0.35); }
+
+.location-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.location-status {
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--weathered-stone);
+}
+
+.location-status.active { color: var(--success); }
+
+.location-card h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.location-city {
+  color: var(--cigar-ash);
+  font-size: 0.88rem;
+}
+
+.location-type {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+  white-space: nowrap;
+  align-self: start;
+  margin-top: 0.25rem;
+}
+
+.location-note {
+  color: var(--cigar-ash);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* ============================================================
+   SHOP — FILTERS
+============================================================ */
+.shop-filters {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  padding: 2.5rem var(--page-x) 0;
+}
+
+.shop-filter-btn {
+  padding: 0.55rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--cigar-ash);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.shop-filter-btn.active {
+  background: var(--grad-copper);
+  color: var(--midnight-smoke);
+  border-color: transparent;
+}
+
+.shop-filter-btn:hover:not(.active) {
+  border-color: var(--line-strong);
+  color: var(--ivory-smoke);
+}
+
+/* ============================================================
+   SHOP — PRODUCT GRID
+============================================================ */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  padding: 2rem var(--page-x) clamp(4rem, 8vw, 6rem);
+}
+
+/* ============================================================
+   PRODUCT CARD
+============================================================ */
+.product-card {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--charred-oak);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s;
+}
+
+.product-card:hover {
+  border-color: rgba(212, 165, 90, 0.35);
+}
+
+/* Image */
+.product-card-img {
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.product-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.product-card:hover .product-card-img img {
+  transform: scale(1.05);
+}
+
+/* Gradient placeholders for items without photos */
+.product-img-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.product-img-placeholder--bundle {
+  background:
+    radial-gradient(circle at 50% 40%, rgba(212, 165, 90, 0.32), transparent 60%),
+    linear-gradient(145deg, #2e1d0e, #1B1612);
+}
+
+.product-img-placeholder--apparel {
+  background:
+    radial-gradient(circle at 50% 30%, rgba(124, 116, 107, 0.22), transparent 55%),
+    linear-gradient(145deg, #201b16, #1B1612);
+}
+
+/* Category badge */
+.product-category-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid rgba(212, 165, 90, 0.22);
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Body */
+.product-card-body {
+  padding: 1.5rem 1.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.product-card-body h2 {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.product-tagline {
+  color: var(--ivory-smoke);
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.product-description {
+  color: var(--cigar-ash);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  margin-top: 0.15rem;
+}
+
+.product-pairing {
+  color: var(--cigar-ash);
+  font-size: 0.82rem;
+  margin-top: 0.15rem;
+  line-height: 1.5;
+}
+
+.product-pairing .spec-label {
+  margin-right: 0.3rem;
+}
+
+/* Footer */
+.product-card-footer {
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+}
+
+.product-price-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.product-price {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  font-weight: 500;
+  color: var(--ivory-smoke);
+  line-height: 1;
+}
+
+.product-price-note {
+  color: var(--weathered-stone);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.shop-buy-btn {
+  flex-shrink: 0;
+}
+
+/* Coming soon badge */
+.badge-coming-soon {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  color: var(--weathered-stone);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Square secure note */
+.product-square-note {
+  padding: 0.7rem 1.75rem 1rem;
+}
+
+.product-square-note span {
+  font-size: 0.68rem;
+  color: var(--weathered-stone);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================
+   SHOP — SQUARE TRUST SECTION
+============================================================ */
+.square-trust {
+  padding: clamp(4rem, 8vw, 7rem) var(--page-x);
+  border-top: 1px solid var(--line);
+  background: var(--charred-oak);
+  text-align: center;
+}
+
+.square-trust-inner {
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.square-trust-inner .eyebrow { margin-bottom: 0.85rem; }
+
+.square-trust-inner h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  margin-bottom: 1.1rem;
+  line-height: 1.1;
+}
+
+.square-trust-inner p {
+  color: var(--cigar-ash);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.square-trust-badges {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.square-trust-badges span {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+  border: 1px solid rgba(212, 165, 90, 0.25);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+}
+
+/* ============================================================
+   NEWSLETTER SECTION (Home inline)
+============================================================ */
+.newsletter-section {
+  padding: clamp(5rem, 10vw, 9rem) var(--page-x);
+  background:
+    radial-gradient(circle, rgba(212, 165, 90, 0.14) 0%, transparent 65%),
+    linear-gradient(180deg, var(--charred-oak), var(--midnight-smoke));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+
+.newsletter-section .reveal { max-width: 560px; margin: 0 auto; }
+.newsletter-section .eyebrow { margin-bottom: 0.85rem; }
+.newsletter-section h2 { font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.1rem; }
+.newsletter-section > .reveal > p {
+  color: var(--cigar-ash);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.nl-form {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.nl-input {
+  flex: 1;
+  padding: 0.85rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(245, 240, 232, 0.06);
+  color: var(--ivory-smoke);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.nl-input:focus { border-color: var(--barrel-gold); }
+.nl-input::placeholder { color: var(--weathered-stone); }
+
+.nl-submit { flex-shrink: 0; }
+
+.nl-success { padding: 1rem; }
+.nl-success p {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--barrel-gold);
+  font-style: italic;
+}
+
+/* ============================================================
+   NEWSLETTER MODAL
+============================================================ */
+@keyframes nl-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes nl-rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.nl-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10, 10, 10, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  animation: nl-fade 0.3s ease;
+}
+
+.nl-modal {
+  width: min(480px, 100%);
+  background: linear-gradient(160deg, #1B1612, #0D0A07);
+  border: 1px solid var(--line-strong);
+  border-radius: 32px;
+  padding: clamp(2rem, 5vw, 3rem);
+  text-align: center;
+  position: relative;
+  box-shadow:
+    0 40px 120px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(212, 165, 90, 0.06),
+    inset 0 1px 0 rgba(212, 165, 90, 0.08);
+  animation: nl-rise 0.35s ease;
+}
+
+.nl-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--weathered-stone);
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.25rem;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.nl-close:hover { color: var(--ivory-smoke); }
+
+.nl-brand {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--barrel-gold);
+  margin-bottom: 1.25rem;
+}
+
+.nl-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+  color: var(--ivory-smoke);
+  font-weight: 500;
+  line-height: 1.05;
+  margin-bottom: 0.85rem;
+}
+
+.nl-body {
+  color: var(--cigar-ash);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  margin-bottom: 1.75rem;
+}
+
+.nl-skip {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--weathered-stone);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: color 0.2s;
+}
+.nl-skip:hover { color: var(--cigar-ash); }
+
+/* ============================================================
+   ABOUT PAGE
+============================================================ */
+.about-hero {
+  min-height: calc(100vh - var(--nav-h));
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(4rem, 8vw, 8rem) var(--page-x);
+  background: var(--midnight-smoke);
+}
+
+.about-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  z-index: 0;
+}
+
+.about-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
+}
+
+.about-hero-eyebrow { margin-bottom: 0.85rem; }
+
+.about-hero-content h1 {
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+}
+
+.about-hero-sub {
+  color: var(--cigar-ash);
+  font-size: 1.1rem;
+  line-height: 1.75;
+  max-width: 520px;
+}
+
+/* About sections */
+.about-section {
+  padding: clamp(5rem, 10vw, 9rem) var(--page-x);
+  border-bottom: 1px solid var(--line);
+}
+
+.about-section--dark { background: var(--charred-oak); }
+
+.about-section-inner {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 4rem;
+  align-items: start;
+  max-width: 1100px;
+}
+
+.about-section-label .eyebrow { padding-top: 0.6rem; }
+
+.about-section-body h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+.about-section-body p {
+  color: var(--cigar-ash);
+  font-size: 1rem;
+  line-height: 1.88;
+  margin-bottom: 1rem;
+  max-width: 660px;
+}
+
+.about-cta-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* Philosophy quote */
+.about-philosophy {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(6rem, 12vw, 11rem) var(--page-x);
+  text-align: center;
+  background:
+    radial-gradient(circle, rgba(212, 165, 90, 0.16), transparent 65%),
+    linear-gradient(180deg, var(--midnight-smoke), #150f08, var(--midnight-smoke));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.about-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 4.5vw, 3.75rem);
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--ivory-smoke);
+  max-width: 860px;
+  margin: 0 auto 1.25rem;
+  font-weight: 400;
+}
+
+.about-philosophy cite {
+  color: var(--cigar-ash);
+  font-size: 0.82rem;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Values */
+.about-values {
+  padding: clamp(4rem, 8vw, 8rem) var(--page-x);
+}
+
+.about-values > .reveal:first-child { margin-bottom: 3rem; }
+.about-values > .reveal:first-child h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  margin-top: 0.75rem;
+  line-height: 1.1;
+}
+
+.about-values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.about-value-card {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 2rem 1.75rem;
+  background: var(--charred-oak);
+  transition: border-color 0.25s;
+  height: 100%;
+}
+
+.about-value-card:hover { border-color: rgba(212, 165, 90, 0.35); }
+
+.about-value-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  margin-bottom: 0.85rem;
+  font-weight: 500;
+}
+
+.about-value-card p {
+  color: var(--cigar-ash);
+  font-size: 0.88rem;
+  line-height: 1.72;
+}
+
+/* ============================================================
+   CIGAR DETAIL PAGE
+============================================================ */
+.detail-hero {
+  min-height: calc(100vh - var(--nav-h));
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(3rem, 6vw, 5rem) var(--page-x) clamp(3rem, 6vw, 5rem);
+  background: var(--midnight-smoke);
+}
+
+.detail-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* Dark vignette on hero image so text reads */
+.detail-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.9) 0%,
+    rgba(10, 10, 10, 0.4) 50%,
+    rgba(10, 10, 10, 0.15) 100%
+  );
+}
+
+.detail-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+}
+
+.detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cigar-ash);
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+.detail-back:hover { color: var(--barrel-gold); }
+
+.detail-hero-status {
+  margin-bottom: 0.6rem;
+}
+
+.detail-name {
+  font-size: clamp(4.5rem, 11vw, 10rem);
+  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+  margin-bottom: 1.1rem;
+}
+
+.detail-tagline {
+  color: var(--cigar-ash);
+  font-size: 1.2rem;
+  line-height: 1.5;
+  max-width: 500px;
+}
+
+/* Detail body: two-column */
+.detail-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-specs-wrap {
+  padding: clamp(3rem, 6vw, 5rem) var(--page-x);
+  border-right: 1px solid var(--line);
+  height: 100%;
+}
+
+.detail-specs-wrap .eyebrow { margin-bottom: 1.5rem; }
+
+.specs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.specs-table tr { border-bottom: 1px solid var(--line); }
+.specs-table tr:last-child { border-bottom: none; }
+
+.specs-table th,
+.specs-table td {
+  padding: 0.9rem 0;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.specs-table th {
+  color: var(--weathered-stone);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  width: 38%;
+}
+
+.specs-table td { color: var(--ivory-smoke); }
+
+.detail-info-wrap {
+  padding: clamp(3rem, 6vw, 5rem) var(--page-x);
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.detail-block .eyebrow { margin-bottom: 0.85rem; }
+
+.detail-profile-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.profile-tag--lg {
+  padding: 0.4rem 1rem !important;
+  font-size: 0.82rem !important;
+}
+
+.detail-pairing-text {
+  color: var(--cigar-ash);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.detail-buy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.detail-buy-btn { min-width: 180px; }
+
+.detail-buy-note {
+  color: var(--weathered-stone);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* Prev / Next navigation */
+.detail-nav-cigars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.detail-nav-link {
+  padding: 2.25rem var(--page-x);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border-top: 1px solid var(--line);
+  transition: background 0.25s;
+}
+
+.detail-nav-link:hover { background: var(--charred-oak); }
+
+.detail-nav-name {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--ivory-smoke);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.detail-nav-link--next {
+  text-align: right;
+  border-left: 1px solid var(--line);
+}
+
+/* Cigar card CTA link */
+.cigar-card-cta {
+  color: var(--barrel-gold);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  transition: letter-spacing 0.25s;
+}
+
+.cigar-card:hover .cigar-card-cta {
+  letter-spacing: 0.14em;
+}
+
+/* ============================================================
+   RESPONSIVE — 1024px
+============================================================ */
+@media (max-width: 1024px) {
+  .portfolio-scroll  { grid-template-columns: repeat(3, 1fr); }
+  .pillars-grid      { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   RESPONSIVE — 768px
+============================================================ */
+@media (max-width: 768px) {
+  .menu-toggle { display: flex; }
+
+  .main-nav {
+    display: none;
+    position: fixed;
+    inset: var(--nav-h) 0 0 0;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2.5rem var(--page-x);
+    gap: 1.75rem;
+    border-top: 1px solid var(--line);
+    z-index: 99;
+  }
+
+  .main-nav.open { display: flex; }
+
+  .main-nav a {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--ivory-smoke);
+    letter-spacing: 0.02em;
+  }
+
+  .main-nav a.active { color: var(--barrel-gold); }
+
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-bottom: 4rem;
+    gap: 2.5rem;
+  }
+
+  .hero-card { min-height: 360px; }
+
+  .brand-story   { grid-template-columns: 1fr; gap: 3rem; }
+  .pillars-grid  { grid-template-columns: 1fr; }
+  .portfolio-scroll { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner  { grid-template-columns: 1fr; gap: 2rem; }
+
+  /* Mobile full-screen hero sections */
+  .about-hero,
+  .detail-hero {
+    min-height: 100svh;
+    align-items: flex-end;
+  }
+
+  .hero { min-height: 100svh; }
+
+  .location-card {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .cigar-grid    { grid-template-columns: 1fr; }
+  .product-grid  { grid-template-columns: 1fr; }
+
+  /* About page */
+  .about-section-inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .about-values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Detail page */
+  .detail-body {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-specs-wrap {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .detail-nav-cigars { grid-template-columns: 1fr; }
+
+  .detail-nav-link--next {
+    text-align: left;
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Newsletter */
+  .nl-form { flex-direction: column; }
+  .nl-submit { width: 100%; }
+
+  .age-card { border-radius: 24px; }
+}
+
+/* ============================================================
+   RESPONSIVE — 480px
+============================================================ */
+@media (max-width: 480px) {
+  .portfolio-scroll { grid-template-columns: 1fr; }
+
+  .hero-headline { font-size: clamp(2.75rem, 13vw, 4rem); }
+
+  .age-actions { flex-direction: column; }
+  .age-actions .btn { width: 100%; }
+
+  .about-values-grid { grid-template-columns: 1fr; }
+
+  .detail-name { font-size: clamp(3.5rem, 14vw, 6rem); }
+}
+
+/* ============================================================
+   TESTIMONIALS
+============================================================ */
+.testimonials-section {
+  background: var(--midnight-smoke);
+  padding: 6rem 1.5rem;
+  border-top: 1px solid rgba(196, 151, 74, 0.08);
+}
+
+.testimonials-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 3.5rem;
+}
+
+.testimonials-header h2 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--ivory-smoke);
+  margin-top: 0.5rem;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(196, 151, 74, 0.12);
+  border-radius: 2px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.testimonial-card:hover {
+  border-color: rgba(196, 151, 74, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.testimonial-mark {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--burnished-copper);
+  opacity: 0.35;
+  display: block;
+  margin-bottom: -0.75rem;
+}
+
+.testimonial-quote {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.75;
+  color: var(--ivory-smoke);
+  flex: 1;
+}
+
+.testimonial-author {
+  border-top: 1px solid rgba(196, 151, 74, 0.15);
+  padding-top: 1.25rem;
+}
+
+.testimonial-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--burnished-copper);
+}
+
+.testimonial-meta {
+  font-size: 0.78rem;
+  color: var(--cigar-ash);
+  margin-top: 0.2rem;
+}
+
+/* ============================================================
+   EVENTS PAGE
+============================================================ */
+.events-list {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.events-list--past {
+  padding-top: 1.5rem;
+}
+
+.event-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(196, 151, 74, 0.12);
+  border-left: 3px solid var(--burnished-copper);
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.event-card:hover {
+  border-color: rgba(196, 151, 74, 0.3);
+  border-left-color: var(--barrel-gold);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.event-card--featured {
+  border-left-color: var(--barrel-gold);
+  background: rgba(196, 151, 74, 0.05);
+}
+
+.event-card--past {
+  opacity: 0.55;
+  filter: grayscale(0.3);
+}
+
+.event-card--past:hover {
+  opacity: 0.8;
+  filter: none;
+}
+
+.event-date-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  border-right: 1px solid rgba(196, 151, 74, 0.12);
+  padding-right: 2rem;
+  padding-top: 0.25rem;
+}
+
+.event-month {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--burnished-copper);
+}
+
+.event-day {
+  font-family: var(--font-serif);
+  font-size: 3.75rem;
+  line-height: 1;
+  color: var(--ivory-smoke);
+}
+
+.event-year {
+  font-size: 0.72rem;
+  color: var(--cigar-ash);
+  margin-top: 0.15rem;
+}
+
+.event-content h2 {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  color: var(--ivory-smoke);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+.event-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--cigar-ash);
+  margin-bottom: 0.85rem;
+}
+
+.event-badges {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.event-type-badge {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--burnished-copper);
+  border: 1px solid var(--burnished-copper);
+  padding: 0.2rem 0.65rem;
+  border-radius: 2px;
+}
+
+.event-status-badge {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: 2px;
+}
+
+.event-status-badge--upcoming {
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.event-status-badge--past {
+  color: var(--cigar-ash);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.event-description {
+  color: var(--weathered-stone);
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.events-section-label {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 0.75rem;
+}
+
+.events-section-label p {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cigar-ash);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 0.75rem;
+}
+
+.events-host-cta {
+  background: var(--charred-oak);
+  padding: 6rem 1.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(196, 151, 74, 0.1);
+}
+
+.events-host-cta-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.events-host-cta-inner h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  color: var(--ivory-smoke);
+  margin: 0.75rem 0 1rem;
+}
+
+.events-host-cta-inner p {
+  color: var(--weathered-stone);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+/* ============================================================
+   SPOTIFY / SOUNDTRACK
+============================================================ */
+.soundtrack-section {
+  background: var(--charred-oak);
+  padding: 6rem 1.5rem;
+  border-top: 1px solid rgba(196, 151, 74, 0.08);
+}
+
+.soundtrack-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.soundtrack-text h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  color: var(--ivory-smoke);
+  margin: 0.75rem 0 1rem;
+}
+
+.soundtrack-text p {
+  color: var(--weathered-stone);
+  line-height: 1.75;
+  max-width: 480px;
+}
+
+.spotify-player {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.spotify-player--compact {
+  border-radius: 8px;
+}
+
+.spotify-placeholder {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(196, 151, 74, 0.15);
+  border-radius: 12px;
+  padding: 3.5rem 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.spotify-placeholder--compact {
+  padding: 2rem 1.5rem;
+  border-radius: 8px;
+  gap: 0.5rem;
+}
+
+.spotify-placeholder-note {
+  font-size: 2rem;
+  color: var(--burnished-copper);
+  line-height: 1;
+}
+
+.spotify-placeholder--compact .spotify-placeholder-note {
+  font-size: 1.5rem;
+}
+
+.spotify-placeholder-title {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--ivory-smoke);
+}
+
+.spotify-placeholder--compact .spotify-placeholder-title {
+  font-size: 0.95rem;
+}
+
+.spotify-placeholder-sub {
+  font-size: 0.82rem;
+  color: var(--cigar-ash);
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+.detail-block--soundtrack { margin-top: 0.5rem; }
+
+/* ── Responsive: testimonials + events ───────────── */
+@media (max-width: 1024px) {
+  .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .testimonials-grid { grid-template-columns: 1fr; }
+
+  .soundtrack-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .event-card {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .event-date-block {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.5rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(196, 151, 74, 0.12);
+    padding-right: 0;
+    padding-bottom: 1rem;
+  }
+
+  .event-day { font-size: 2rem; }
+}
