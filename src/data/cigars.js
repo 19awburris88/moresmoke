@@ -1,5 +1,3 @@
-const BASE = "https://images.unsplash.com";
-
 export const cigars = [
   {
     name: "Last Call",
@@ -13,7 +11,7 @@ export const cigars = [
     pairing: "Aged bourbon or dark rum",
     status: "Coming Soon",
     featured: true,
-    img: `${BASE}/photo-1768703137273-8650ed4d8ced?auto=format&fit=crop&w=800&q=80`,
+    img: null,
   },
   {
     name: "Tempus Fugit",
@@ -26,7 +24,7 @@ export const cigars = [
     profile: ["Cedar", "Baking spice", "Leather", "Roasted nuts"],
     pairing: "Single malt scotch or aged rum",
     status: "Core Release",
-    img: `${BASE}/photo-1682125792755-40f2c999e884?auto=format&fit=crop&w=800&q=80`,
+    img: "/tempusfugit.png",
   },
   {
     name: "Cowboy Caviar",
@@ -39,7 +37,7 @@ export const cigars = [
     profile: ["Cocoa", "Earth", "Sweet spice", "Pepper"],
     pairing: "Whiskey neat or a bold red wine",
     status: "Core Release",
-    img: `${BASE}/photo-1682125790146-85e7239eb2e1?auto=format&fit=crop&w=800&q=80`,
+    img: "/cowboycaviar.png",
   },
   {
     name: "Nile Queen",
@@ -52,7 +50,7 @@ export const cigars = [
     profile: ["Cedar", "Cream", "Floral spice", "Toasted almond"],
     pairing: "Champagne or a light cognac",
     status: "Limited Release",
-    img: `${BASE}/photo-1768224949425-8c317d30e2d4?auto=format&fit=crop&w=800&q=80`,
+    img: "/nilequeen.png",
   },
   {
     name: "Space Cowboy",
@@ -65,6 +63,6 @@ export const cigars = [
     profile: ["Dark fruit", "Cocoa", "Espresso", "Pepper"],
     pairing: "Cold brew coffee or spiced rum",
     status: "Core Release",
-    img: `${BASE}/photo-1679419857745-d12fb264c58d?auto=format&fit=crop&w=800&q=80`,
+    img: "/spacecowboy.png",
   },
 ];
