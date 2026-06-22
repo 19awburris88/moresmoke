@@ -23,7 +23,7 @@ export const cigars = [
     strength: "Medium",
     profile: ["Cedar", "Baking spice", "Leather", "Roasted nuts"],
     pairing: "Single malt scotch or aged rum",
-    status: "Core Release",
+    status: "Coming Soon",
     img: "/tempusfugit.png",
   },
   {
@@ -36,7 +36,7 @@ export const cigars = [
     strength: "Medium-Full",
     profile: ["Cocoa", "Earth", "Sweet spice", "Pepper"],
     pairing: "Whiskey neat or a bold red wine",
-    status: "Core Release",
+    status: "Coming Soon",
     img: "/cowboycaviar.png",
   },
   {
@@ -49,7 +49,7 @@ export const cigars = [
     strength: "Medium",
     profile: ["Cedar", "Cream", "Floral spice", "Toasted almond"],
     pairing: "Champagne or a light cognac",
-    status: "Limited Release",
+    status: "Coming Soon",
     img: "/nilequeen.png",
   },
   {
@@ -62,7 +62,7 @@ export const cigars = [
     strength: "Medium-Full",
     profile: ["Dark fruit", "Cocoa", "Espresso", "Pepper"],
     pairing: "Cold brew coffee or spiced rum",
-    status: "Core Release",
+    status: "Coming Soon",
     img: "/spacecowboy.png",
   },
 ];
