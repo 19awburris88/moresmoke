@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
+import logoLight from "../assets/brand/logo-light.png";
 
 export default function AgeGate() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(
+    () => !localStorage.getItem("moreSmokeAgeVerified")
+  );
 
   useEffect(() => {
-    if (!localStorage.getItem("moreSmokeAgeVerified")) {
-      setVisible(true);
-    }
-  }, []);
+    document.body.style.overflow = visible ? "hidden" : "";
+  }, [visible]);
 
   const enter = () => {
     localStorage.setItem("moreSmokeAgeVerified", "true");
@@ -21,17 +22,18 @@ export default function AgeGate() {
   if (!visible) return null;
 
   return (
-    <div className="age-gate">
+    <div className="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-title">
       <div className="age-card">
-        <div className="age-brand">More Smoke</div>
-        <h1 className="age-title">Are you 21 or older?</h1>
+        <img src={logoLight} alt="More Smoke Cigars" className="age-logo" />
+        <span className="age-rule" aria-hidden="true" />
+        <h1 id="age-title" className="age-title">Are you 21 or older?</h1>
         <p className="age-text">
           This site contains information about premium tobacco products.
-          You must be 21 years of age or older to enter.
+          You must be of legal smoking age to enter.
         </p>
         <div className="age-actions">
           <button className="btn" onClick={enter}>Yes, I&apos;m 21+</button>
-          <button className="btn ghost" onClick={leave}>No, Exit</button>
+          <button className="btn btn--ghost-light" onClick={leave}>No, Exit</button>
         </div>
         <p className="age-disclaimer">
           By entering, you confirm you are of legal smoking age in your jurisdiction.

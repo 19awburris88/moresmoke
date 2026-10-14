@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import AnimateIn from "../components/AnimateIn";
 import SmokeOrbs from "../components/SmokeOrbs";
 import DocumentHead from "../components/DocumentHead";
+import SectionHeader from "../components/SectionHeader";
 
 const HERO_IMG =
   "https://images.unsplash.com/photo-1679419859523-97c0f0e8985d?auto=format&fit=crop&w=1920&q=80";
@@ -28,7 +29,7 @@ const values = [
 
 export default function About() {
   return (
-    <Layout>
+    <Layout overlay>
       <DocumentHead
         title="About"
         description="More Smoke was founded by entrepreneur Austin Burris — built for the conversations that happen after the meeting ends."
@@ -43,10 +44,11 @@ export default function About() {
           className="about-hero-bg"
           loading="eager"
         />
+        <div className="hero-shade" aria-hidden="true" />
         <SmokeOrbs />
         <div className="about-hero-content">
-          <p className="eyebrow about-hero-eyebrow">The Founder</p>
-          <h1>Built from real conversations.</h1>
+          <p className="eyebrow eyebrow--on-dark">The Founder</p>
+          <h1>Built from <em>real</em> conversations.</h1>
           <p className="about-hero-sub">
             More Smoke isn&apos;t just a cigar brand. It&apos;s a statement about
             how the best things in life deserve your full attention.
@@ -64,7 +66,7 @@ export default function About() {
             <div className="about-section-body">
               <h2>Every brand has a moment. This one had a conversation.</h2>
               <p>
-                More Smoke was founded by entrepreneur Austin Burris in the space
+                More Smoke was founded in 2021 by entrepreneur Austin Burris in the space
                 where every great idea eventually gets refined — the quiet hours
                 after the meeting ends. When the agenda is put away, the handshakes
                 are done, and the real talking begins.
@@ -87,20 +89,18 @@ export default function About() {
       </section>
 
       {/* Philosophy */}
-      <section className="about-philosophy">
+      <section className="statement statement--dark">
         <SmokeOrbs />
         <AnimateIn>
-          <blockquote className="about-quote">
-            <span className="philosophy-mark">&ldquo;</span>
-            Life&apos;s best conversations happen after the meeting ends.
-            <span className="philosophy-mark">&rdquo;</span>
+          <blockquote className="statement-quote">
+            &ldquo;Life&apos;s best conversations happen <em>after the meeting ends.</em>&rdquo;
           </blockquote>
-          <cite>— Austin Burris, Founder of More Smoke</cite>
+          <cite>Austin Burris, Founder</cite>
         </AnimateIn>
       </section>
 
       {/* The Brand */}
-      <section className="about-section about-section--dark">
+      <section className="about-section about-section--ash">
         <div className="about-section-inner">
           <AnimateIn from="right" className="about-section-label">
             <p className="eyebrow">The Brand</p>
@@ -127,20 +127,22 @@ export default function About() {
       </section>
 
       {/* Values */}
-      <section className="about-values">
-        <AnimateIn>
-          <p className="eyebrow">What We Stand For</p>
-          <h2>The pillars behind the brand.</h2>
-        </AnimateIn>
-        <div className="about-values-grid">
-          {values.map(({ title, body }, i) => (
-            <AnimateIn key={title} delay={i * 90}>
-              <div className="about-value-card">
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </div>
-            </AnimateIn>
-          ))}
+      <section className="section section--dark">
+        <div className="container">
+          <AnimateIn>
+            <SectionHeader eyebrow="What We Stand For" title="The pillars behind the brand." />
+          </AnimateIn>
+          <div className="pillars pillars--four">
+            {values.map(({ title, body }, i) => (
+              <AnimateIn key={title} delay={i * 90}>
+                <div className="pillar">
+                  <span className="pillar-num">0{i + 1}</span>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </AnimateIn>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -148,15 +150,21 @@ export default function About() {
       <section className="about-section">
         <div className="about-section-inner">
           <AnimateIn from="left" className="about-section-label">
-            <p className="eyebrow">The Vision</p>
+            <p className="eyebrow">The Return</p>
           </AnimateIn>
           <AnimateIn delay={120}>
             <div className="about-section-body">
-              <h2>One lounge at a time. One conversation at a time.</h2>
+              <h2>Back, with more intention than ever.</h2>
               <p>
-                What started as a boutique collection is growing into a recognized
-                name in the premium cigar world — placed intentionally in the right
-                lounges, at the right events, in the right hands.
+                More Smoke has been around since 2021. We stepped away for a while —
+                and we&apos;re coming back the way we do everything: deliberately.
+                A refined identity, the same standard in every cigar, and the same
+                belief in the conversations they&apos;re made for.
+              </p>
+              <p>
+                From here, the plan is simple: one lounge at a time, one
+                conversation at a time — placed intentionally in the right rooms,
+                at the right events, in the right hands.
               </p>
               <p>
                 The vision for More Smoke is to become the brand that entrepreneurs
@@ -166,7 +174,7 @@ export default function About() {
               </p>
               <div className="about-cta-row">
                 <Link to="/cigars" className="btn">Explore the Collection</Link>
-                <Link to="/locations" className="btn ghost">Find More Smoke</Link>
+                <Link to="/locations" className="btn btn--outline">Find More Smoke</Link>
               </div>
             </div>
           </AnimateIn>

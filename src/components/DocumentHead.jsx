@@ -2,8 +2,7 @@ import { useEffect } from "react";
 
 const DEFAULT_DESC =
   "Premium boutique cigars for slow nights, sharp rooms, and unforgettable conversations. Shop More Smoke Cigars online.";
-const DEFAULT_IMG =
-  "https://images.unsplash.com/photo-1679419859523-97c0f0e8985d?auto=format&fit=crop&w=1200&q=80";
+const DEFAULT_IMG = "/og-image.jpg";
 
 export default function DocumentHead({ title, description, image }) {
   useEffect(() => {
@@ -21,7 +20,7 @@ export default function DocumentHead({ title, description, image }) {
     };
 
     const desc = description ?? DEFAULT_DESC;
-    const img = image ?? DEFAULT_IMG;
+    const img = new URL(image ?? DEFAULT_IMG, window.location.origin).href;
 
     setMeta("name", "description", desc);
     setMeta("property", "og:title", fullTitle);

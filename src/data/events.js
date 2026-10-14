@@ -27,18 +27,4 @@ export const events = [
     featured: false,
     rsvpUrl: null,
   },
-  {
-    id: "launch-night-nov-2025",
-    name: "More Smoke — Brand Launch Night",
-    date: "2025-11-15",
-    time: "7:00 PM – 11:00 PM CT",
-    venue: "Pressed & Aged",
-    address: "Nashville, TN",
-    type: "Brand Launch",
-    description:
-      "The official debut of the More Smoke brand. Tempus Fugit and Cowboy Caviar were introduced to an invite-only crowd alongside a curated bourbon selection. The room was full. The conversation was better.",
-    status: "past",
-    featured: false,
-    rsvpUrl: null,
-  },
 ];

@@ -16,7 +16,7 @@ import { useState } from "react";
 
 const ENDPOINT = import.meta.env.VITE_NEWSLETTER_ENDPOINT;
 
-export default function NewsletterForm({ onSuccess, compact = false }) {
+export default function NewsletterForm({ onSuccess, compact = false, dark = false }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
@@ -33,7 +33,9 @@ export default function NewsletterForm({ onSuccess, compact = false }) {
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({ email }),
         });
-      } catch (_) {}
+      } catch {
+        // Fail quietly — the subscriber still sees confirmation.
+      }
     }
 
     setDone(true);
@@ -43,14 +45,17 @@ export default function NewsletterForm({ onSuccess, compact = false }) {
 
   if (done) {
     return (
-      <div className="nl-success">
+      <div className={`nl-success${dark ? " nl-success--dark" : ""}`}>
         <p>You&apos;re in. Welcome to the inner circle.</p>
       </div>
     );
   }
 
   return (
-    <form className={`nl-form${compact ? " nl-form--compact" : ""}`} onSubmit={submit}>
+    <form
+      className={`nl-form${compact ? " nl-form--compact" : ""}${dark ? " nl-form--dark" : ""}`}
+      onSubmit={submit}
+    >
       <input
         type="email"
         className="nl-input"

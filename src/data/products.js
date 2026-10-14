@@ -52,7 +52,7 @@ export const products = [
       "The perfect introduction to the portfolio, or a premium gift for the " +
       "connoisseur in your circle.",
     pairing:   "Your favorite bourbon or aged rum",
-    img:       "https://images.unsplash.com/photo-1682125790146-85e7239eb2e1?auto=format&fit=crop&w=800&q=80",
+    img:       null,  // ← add a product photo (e.g. /sample-pack.jpg in public/)
     squareUrl: null,  // ← paste Square payment link
     comingSoon: true,
   },

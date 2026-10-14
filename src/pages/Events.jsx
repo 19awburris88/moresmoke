@@ -9,13 +9,14 @@ function parseDate(dateStr) {
   const d = new Date(year, month - 1, day);
   return {
     month: d.toLocaleString("en-US", { month: "short" }).toUpperCase(),
+    weekday: d.toLocaleString("en-US", { weekday: "short" }).toUpperCase(),
     day: String(day).padStart(2, "0"),
     year,
   };
 }
 
 function EventCard({ event, past = false }) {
-  const { month, day, year } = parseDate(event.date);
+  const { month, weekday, day, year } = parseDate(event.date);
   const emailBody = encodeURIComponent(
     `Hi,\n\nI'd like to RSVP for: ${event.name}\nDate: ${event.date}\nVenue: ${event.venue}, ${event.address}\n\nPlease let me know next steps.\n\nThanks`
   );
@@ -25,41 +26,38 @@ function EventCard({ event, past = false }) {
 
   return (
     <article
-      className={`event-card${event.featured ? " event-card--featured" : ""}${past ? " event-card--past" : ""}`}
+      className={`event${event.featured ? " event--featured" : ""}${past ? " event--past" : ""}`}
     >
-      <div className="event-date-block">
-        <span className="event-month">{month}</span>
+      <div className="event-date">
+        <span className="event-month">{month} {year}</span>
         <span className="event-day">{day}</span>
-        <span className="event-year">{year}</span>
+        <span className="event-weekday">{weekday}</span>
       </div>
 
-      <div className="event-content">
+      <div className="event-body">
+        <div className="event-tags">
+          <span className="tag">{event.type}</span>
+          {event.featured && !past && <span className="tag tag--solid">Featured</span>}
+        </div>
         <h2>{event.name}</h2>
+        <p className="event-meta">
+          {event.venue} · {event.address}
+          {event.time && <> · {event.time}</>}
+        </p>
+        <p className="event-desc">{event.description}</p>
+      </div>
 
-        <div className="event-meta-row">
-          <span>{event.venue} · {event.address}</span>
-          {event.time && <span>{event.time}</span>}
-        </div>
-
-        <div className="event-badges">
-          <span className="event-type-badge">{event.type}</span>
-          <span className={`event-status-badge event-status-badge--${event.status}`}>
-            {event.status === "upcoming" ? "Upcoming" : "Past Event"}
-          </span>
-        </div>
-
-        <p className="event-description">{event.description}</p>
-
-        {!past && (
+      {!past && (
+        <div className="event-action">
           <a
             href={rsvpHref}
-            className="btn ghost"
+            className="btn btn--outline"
             {...(event.rsvpUrl ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           >
-            {event.rsvpUrl ? "Get Tickets" : "RSVP by Email"}
+            {event.rsvpUrl ? "Get Tickets" : "RSVP"}
           </a>
-        )}
-      </div>
+        </div>
+      )}
     </article>
   );
 }
@@ -81,47 +79,50 @@ export default function Events() {
         text="Lounge nights, private releases, and curated gatherings. The kind of events worth clearing your calendar for."
       />
 
-      {upcoming.length > 0 && (
-        <section className="events-list">
-          {upcoming.map((event, i) => (
-            <AnimateIn key={event.id} delay={i * 80}>
-              <EventCard event={event} />
-            </AnimateIn>
-          ))}
-        </section>
-      )}
+      <section className="section section--flush-top">
+        <div className="container">
+          {upcoming.length > 0 && (
+            <>
+              <h2 className="list-label">Upcoming</h2>
+              <div className="events">
+                {upcoming.map((event, i) => (
+                  <AnimateIn key={event.id} delay={i * 80}>
+                    <EventCard event={event} />
+                  </AnimateIn>
+                ))}
+              </div>
+            </>
+          )}
 
-      {past.length > 0 && (
-        <>
-          <div className="events-section-label">
-            <p>Past Events</p>
+          {past.length > 0 && (
+            <>
+              <h2 className="list-label">Past Events</h2>
+              <div className="events">
+                {past.map((event, i) => (
+                  <AnimateIn key={event.id} delay={i * 80}>
+                    <EventCard event={event} past />
+                  </AnimateIn>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+
+      <section className="cta-band">
+        <div className="container cta-band-inner">
+          <div>
+            <p className="eyebrow eyebrow--on-dark">Host an Event</p>
+            <h2>Bring More Smoke to your venue.</h2>
+            <p>
+              We partner with lounges, private clubs, and curated event hosts who
+              understand that the right atmosphere makes all the difference.
+            </p>
           </div>
-          <section className="events-list events-list--past">
-            {past.map((event, i) => (
-              <AnimateIn key={event.id} delay={i * 80}>
-                <EventCard event={event} past />
-              </AnimateIn>
-            ))}
-          </section>
-        </>
-      )}
-
-      <section className="events-host-cta">
-        <AnimateIn className="events-host-cta-inner">
-          <p className="eyebrow">Host an Event</p>
-          <h2>Want to bring More Smoke to your venue?</h2>
-          <p>
-            We partner with lounges, private clubs, and curated event hosts who
-            understand that the right atmosphere makes all the difference.
-            Reach out and let&apos;s make it happen.
-          </p>
-          <a
-            href="mailto:hello@moresmoke.co?subject=Event%20Partnership%20Inquiry"
-            className="btn"
-          >
+          <a href="mailto:hello@moresmoke.co?subject=Event%20Partnership%20Inquiry" className="btn">
             Get in Touch
           </a>
-        </AnimateIn>
+        </div>
       </section>
     </Layout>
   );
