@@ -1,3 +1,12 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="src/assets/brand/logo-light.png" />
+    <img src="src/assets/brand/logo-dark.png" alt="More Smoke Cigars" width="320" />
+  </picture>
+</p>
+
+<p align="center"><strong>Premium boutique cigars · Est. 2021</strong></p>
+
 # More Smoke Cigars
 
 The official home of **More Smoke Cigars**, a premium boutique cigar brand founded in 2021 by
@@ -7,6 +16,24 @@ meeting ends.
 After a break, More Smoke is relaunching. This repository is the brand's new home: a ground-up
 overhaul with a new logo, a new visual identity, and a platform designed to grow with the business.
 It covers the collection, online sales, events, and wholesale.
+
+![More Smoke home page](docs/screenshots/home-hero.jpg)
+
+---
+
+## Screenshots
+
+| | |
+|---|---|
+| ![The collection on the home page](docs/screenshots/home-collection.jpg) | ![Brand story section](docs/screenshots/home-story.jpg) |
+| **Home: the collection.** All five releases with strength meters | **Home: our standard.** The brand story |
+| ![The Collection page](docs/screenshots/cigars.jpg) | ![Cigar detail page](docs/screenshots/detail.jpg) |
+| **The Collection.** Every release with specs and tasting notes | **Cigar detail.** Price, strength, specs, notes, pairing |
+| ![Shop page](docs/screenshots/shop.jpg) | ![Testimonials](docs/screenshots/testimonials.jpg) |
+| **Shop.** Square-ready product grid with a return notice | **Words from the room.** Partner testimonials |
+
+![Mobile: age gate, hero, and menu](docs/screenshots/mobile.jpg)
+<p align="center"><em>Mobile: 21+ age gate, home hero, and full-screen menu</em></p>
 
 ---
 
@@ -61,8 +88,8 @@ All colors are defined as CSS custom properties at the top of `src/index.css`.
 | `/cigars` | The full collection |
 | `/cigars/:slug` | Cigar detail: specs, strength meter, tasting notes, pairing, ordering |
 | `/shop` | Shop: cigars, sample pack, apparel (Square checkout) |
-| `/events` | Lounge nights and private releases |
-| `/locations` | Authorized lounges and retailers |
+| `/events` | Lounge nights and private releases (shows a "new dates coming soon" signup when empty) |
+| `/locations` | Partner lounges |
 | `/about` | Our Story: the founder, the philosophy, the pillars |
 
 ## Features
@@ -75,6 +102,17 @@ All colors are defined as CSS custom properties at the top of `src/index.css`.
 - Cigar Experience Soundtrack (Spotify embed)
 - Per-page SEO and Open Graph tags
 
+## Partners
+
+More Smoke is currently carried at:
+
+| Lounge | Location |
+|---|---|
+| **Cigar City Club** | Sandy Springs, GA |
+| **Cosmo Knights** | Indianapolis, IN |
+
+Interested in carrying More Smoke? Email [hello@moresmoke.co](mailto:hello@moresmoke.co?subject=Wholesale%20Inquiry).
+
 ---
 
 ## Getting Started
@@ -86,6 +124,8 @@ npm run build     # production build → dist/
 npm run preview   # preview the production build
 npm run lint
 ```
+
+Copy `.env.example` to `.env` to configure optional settings.
 
 ### Stack
 
@@ -101,7 +141,7 @@ All brand content lives in `src/data/`, so no component changes are needed for r
 |---|---|
 | `cigars.js` | The collection: names, specs, strength, tasting notes, pairings, status, band art |
 | `products.js` | Shop items, prices, and **Square payment links** |
-| `events.js` | Upcoming and past events |
+| `events.js` | Upcoming and past events (empty for now; see the example in the file) |
 | `locations.js` | Partner lounges and retailers |
 | `testimonials.js` | Customer and partner quotes |
 | `playlist.js` | Spotify playlist URL |
@@ -116,9 +156,14 @@ Until a link is set, "Order Now" falls back to a pre-filled email to `hello@more
 
 ### Newsletter
 
-Set `VITE_NEWSLETTER_ENDPOINT` in a `.env` file to send signups to your email provider
+Set `VITE_NEWSLETTER_ENDPOINT` in `.env` to send signups to your email provider
 (Formspree, Mailchimp, ConvertKit, etc.). See the comments in `src/components/NewsletterForm.jsx`.
+
+### Updating screenshots
+
+Screenshots live in `docs/screenshots/`. Retake them at 1440px desktop and 390px mobile widths
+whenever the design changes.
 
 ---
 
-© More Smoke Cigars. All rights reserved. For adults 21+ only.
+© 2021–2026 More Smoke Cigars. All rights reserved. For adults 21+ only.

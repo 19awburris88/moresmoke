@@ -1,7 +1,8 @@
 {
   "name": "more-smoke-cigars",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.0.0",
+  "description": "Official website of More Smoke Cigars — premium boutique cigars, est. 2021.",
   "type": "module",
   "scripts": {
     "dev": "vite",

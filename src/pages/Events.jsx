@@ -1,4 +1,5 @@
 import Layout from "../components/Layout";
+import NewsletterForm from "../components/NewsletterForm";
 import PageHero from "../components/PageHero";
 import AnimateIn from "../components/AnimateIn";
 import DocumentHead from "../components/DocumentHead";
@@ -81,6 +82,17 @@ export default function Events() {
 
       <section className="section section--flush-top">
         <div className="container">
+          {events.length === 0 && (
+            <div className="notice">
+              <div>
+                <p className="eyebrow">On the Calendar</p>
+                <h2>New dates are coming soon.</h2>
+                <p>Join the Inner Circle and get the invite before anyone else.</p>
+              </div>
+              <NewsletterForm compact />
+            </div>
+          )}
+
           {upcoming.length > 0 && (
             <>
               <h2 className="list-label">Upcoming</h2>

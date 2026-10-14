@@ -2049,6 +2049,7 @@ p { text-wrap: pretty; }
 }
 
 .location h2 { font-size: 1.75rem; }
+.location > .tag + h2 { margin-top: 1.5rem; }
 
 .location-type {
   margin: 0.6rem 0 1rem;

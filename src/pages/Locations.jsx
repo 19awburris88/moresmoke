@@ -9,7 +9,7 @@ export default function Locations() {
     <Layout>
       <DocumentHead
         title="Locations"
-        description="Find More Smoke Cigars at select lounges and authorized retailers. Currently available in Nashville, TN at Pressed & Aged."
+        description="Find More Smoke Cigars at select lounges and authorized partners, including Cigar City Club and Cosmo Knights."
       />
 
       <PageHero
@@ -26,7 +26,7 @@ export default function Locations() {
               <AnimateIn key={i} delay={i * 80}>
                 <article className={`location${active ? " location--active" : ""}`}>
                   <span className={`tag${active ? " tag--solid" : " tag--muted"}`}>{loc.status}</span>
-                  <p className="location-city">{loc.city}, {loc.state}</p>
+                  {loc.city && <p className="location-city">{loc.city}, {loc.state}</p>}
                   <h2>{loc.name}</h2>
                   <p className="location-type">{loc.type}</p>
                   <p className="location-note">{loc.note}</p>
